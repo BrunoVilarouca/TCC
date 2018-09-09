@@ -1,18 +1,18 @@
 package firstTest;
 
+
 import org.opencv.core.Core;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class WebcamGUI extends Application {
+public class ProcImgGUI extends Application {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -23,38 +23,32 @@ public class WebcamGUI extends Application {
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
 		VBox root = new VBox();
-		VBox optionsmenu = new VBox();
-		HBox webcambox = new HBox();
+		HBox imagebox = new HBox();
 		HBox buttons = new HBox();
 		Label lbl_text;
-		Label lbl_options;
-		Button btn_analyze;
-		CheckBox grayscale = new CheckBox();
-		ImageView webcamView = new ImageView();
-		ImageView histogram = new ImageView();
-		WebcamVideo webcamVideo = new WebcamVideo();
-
+		Button btn_select;
+		ImageView imageView = new ImageView();
+		ImageSelect image = new ImageSelect();
+		
+		
 		try {
 			// scene elements
 			lbl_text = new Label("Teste Processamento de Imagem");
-			btn_analyze = new Button("iniciar");
-			btn_analyze.setId("btnid");
-			lbl_options = new Label ("Testes:");
-			grayscale.setText("Escala de Cinza");
-
-			// webcam opencv
-			webcamView.setFitWidth(612);
-			webcamView.setPreserveRatio(true);
-			optionsmenu.setMinWidth(300);
+			btn_select = new Button("Selecionar assinatura");
+			btn_select.setId("btnid");
 			
+			// webcam opencv
+			imageView.setFitWidth(230);
+			imageView.setPreserveRatio(true);
+			
+
 			// actions
-			btn_analyze.setOnAction(e -> webcamVideo.Record(webcamView, btn_analyze, grayscale, histogram));
+			btn_select.setOnAction(e -> image.Load(imageView, btn_select));
 
 			// scene template
-			optionsmenu.getChildren().addAll(lbl_options, grayscale, histogram);
-			webcambox.getChildren().addAll(webcamView, optionsmenu);
-			buttons.getChildren().addAll(btn_analyze);
-			root.getChildren().addAll(lbl_text, webcambox, buttons);
+			imagebox.getChildren().addAll(imageView);
+			buttons.getChildren().addAll(btn_select);
+			root.getChildren().addAll(lbl_text, imagebox, buttons);
 
 			// draw scene
 			Scene scene = new Scene(root, 924, 528);
@@ -62,7 +56,7 @@ public class WebcamGUI extends Application {
 			stage.setScene(scene);
 
 			// attach style css
-			optionsmenu.getStyleClass().add("optionsmenu");
+			
 			buttons.getStyleClass().add("buttons");
 			scene.getStylesheets().add("myStyle.css");
 
